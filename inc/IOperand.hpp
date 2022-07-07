@@ -1,14 +1,15 @@
 #include <string>
+#include "Factory.hpp"
+
+enum eOperandType {
+    Int8,
+    Int16,
+    Int32,
+    Float,
+    Double
+};
 
 class IOperand {
-    enum eOperandType {
-        Int8,
-        Int16,
-        Int32,
-        Float,
-        Double
-    };
-
     public:
         virtual std::string toString() const = 0;
 
