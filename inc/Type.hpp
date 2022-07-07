@@ -13,15 +13,15 @@ template <class T>
 class Type : public IOperand {
     private:
         T _value;
-        eOperandType type;
+        eOperandType _type;
     public:
-        Type(T value, eOperandType type) : _value(value), type(type) {};
+        Type(T value, eOperandType type) : _value(value), _type(type) {};
         ~Type() override = default;
         std::string toString() const override {
             return std::to_string(_value);
         };
         eOperandType getType() const override {
-            return type;
+            return _type;
         };
         double getDoubleFromString(std::string const &value) const {
             size_t next;
@@ -36,6 +36,7 @@ class Type : public IOperand {
         IOperand *makeOperation(eOperandType operandType, const std::string &value, char op) const {
             double res;
             IOperand *new_op;
+            eOperandType new_op_type;
             switch (op) {
                 case '+':
                     res = getDoubleFromString(value) + _value;
