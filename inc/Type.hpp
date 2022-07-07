@@ -14,29 +14,30 @@ class Type : public IOperand {
         eOperandType type;
     public:
         Type(T value, eOperandType type) : _value(value), type(type) {};
-        ~Type() = default;
-        std::string toString() const {
+        ~Type() override = default;
+        std::string toString() const override {
             return std::to_string(_value);
         };
-        eOperandType getType() const {
+        eOperandType getType() const override {
             return type;
         };
         double getDoubleFromString(std::string const &value) const;
+        IOperand *makeOperation(eOperandType operandType, const std::string &value) const;
 
-        IOperand *operator+(const IOperand &rhs) const {
-            //IOperand *operand = this->_value + rhs._value;
+        IOperand *operator+(const IOperand &rhs) const override {
+            IOperand *new_op = makeOperation(rhs.getType(), rhs.toString());
+            return new_op;
+        };
+        IOperand *operator-(const IOperand &rhs) const override {
             return nullptr;
         };
-        IOperand *operator-(const IOperand &rhs) const {
+        IOperand *operator*(const IOperand &rhs) const override {
             return nullptr;
         };
-        IOperand *operator*(const IOperand &rhs) const {
+        IOperand *operator/(const IOperand &rhs) const override {
             return nullptr;
         };
-        IOperand *operator/(const IOperand &rhs) const {
-            return nullptr;
-        };
-        IOperand *operator%(const IOperand &rhs) const {
+        IOperand *operator%(const IOperand &rhs) const override {
             return nullptr;
         };
 };

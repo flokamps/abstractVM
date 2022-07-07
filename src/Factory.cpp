@@ -31,7 +31,8 @@ Factory::Operands Factory::_operands = {
 
 IOperand *Factory::createInt8(const std::string &value)
 {
-    IOperand *operand = new Type<int8_t>(std::stoi(value), eOperandType::Int8);
+    IOperand *operand;
+    operand = new Type<int8_t>(std::stoi(value), eOperandType::Int8);
     return operand;
 }
 
