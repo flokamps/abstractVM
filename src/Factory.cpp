@@ -3,6 +3,7 @@
 //
 
 #include "../inc/Factory.hpp"
+#include "../inc/Type.hpp"
 
 Factory::Factory()
 {
@@ -30,7 +31,8 @@ Factory::Operands Factory::_operands = {
 
 IOperand *Factory::createInt8(const std::string &value)
 {
-    return nullptr;
+    IOperand *operand = new Type<int8_t>(std::stoi(value), eOperandType::Int8);
+    return operand;
 }
 
 IOperand *Factory::createInt16(const std::string &value)

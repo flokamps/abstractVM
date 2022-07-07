@@ -3,4 +3,3 @@
 //
 
 #include "../inc/Type.hpp"
-
