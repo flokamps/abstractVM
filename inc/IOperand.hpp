@@ -1,12 +1,12 @@
 #include <string>
-#include "Factory.hpp"
 
 enum eOperandType {
     Int8,
     Int16,
     Int32,
     Float,
-    Double
+    Double,
+    BigDecimal
 };
 
 class IOperand {

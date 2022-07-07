@@ -6,6 +6,8 @@
 #define ABSTRACTVM_FACTORY_H
 
 #include "IOperand.hpp"
+#include <array>
+#include <map>
 
 class Factory {
     public:
@@ -20,6 +22,9 @@ class Factory {
         IOperand* createFloat(const std::string& value);
         IOperand* createDouble(const std::string& value);
         IOperand* createBigDecimal(const std::string& value);
+    private:
+       typedef std::map<eOperandType, IOperand *(Factory::*)(const std::string&)> Operands;
+       static Operands _operands;
 };
 
 #endif //ABSTRACTVM_FACTORY_H
