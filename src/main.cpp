@@ -6,6 +6,6 @@
 
 int main(int argc, char **argv)
 {
-    Factory::createOperand(eOperandType::Int8, "1");
+    IOperand *int8 = Factory::createOperand(eOperandType::Int8, "1");
     return 0;
 }
