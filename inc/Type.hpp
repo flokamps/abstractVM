@@ -21,8 +21,10 @@ class Type : public IOperand {
         eOperandType getType() const {
             return type;
         };
+        double getDoubleFromString(std::string const &value) const;
 
         IOperand *operator+(const IOperand &rhs) const {
+            //IOperand *operand = this->_value + rhs._value;
             return nullptr;
         };
         IOperand *operator-(const IOperand &rhs) const {
