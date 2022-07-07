@@ -40,3 +40,4 @@ void Parser::parsefrmfile()
     }
     asmFile.close();
 }
+
