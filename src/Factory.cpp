@@ -27,3 +27,33 @@ Factory::Operands Factory::_operands = {
     {eOperandType::Double, &Factory::createDouble},
     {eOperandType::BigDecimal, &Factory::createBigDecimal}
 };
+
+IOperand *Factory::createInt8(const std::string &value)
+{
+    return nullptr;
+}
+
+IOperand *Factory::createInt16(const std::string &value)
+{
+    return nullptr;
+}
+
+IOperand *Factory::createInt32(const std::string &value)
+{
+    return nullptr;
+}
+
+IOperand *Factory::createFloat(const std::string &value)
+{
+    return nullptr;
+}
+
+IOperand *Factory::createDouble(const std::string &value)
+{
+    return nullptr;
+}
+
+IOperand *Factory::createBigDecimal(const std::string &value)
+{
+    return nullptr;
+}
