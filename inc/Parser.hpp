@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <array>
+#include <tuple>
+#include <map>
 
 class Parser {
     public:
@@ -23,5 +25,12 @@ class Parser {
 
     private:
         char *_file_path;
-        std::vector<std::tuple<std::string, IOperand::eOperandType, std::string>> cmd;
-}
+        std::vector<std::tuple<std::string, eOperandType, std::string>> cmd;
+        std::string command;
+        eOperandType type;
+        std::string value;
+        std::map<std::string, eOperandType> _type {
+            {"int8", Int8}, {"int16", Int16}, {"int32", Int32}, {"Float", Float}, 
+            {"double", Double}, {"BigDecimal", BigDecimal}, {"NONE", Null}
+        };
+};

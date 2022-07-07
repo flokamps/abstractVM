@@ -5,19 +5,38 @@
 ** Parse
 */
 
-#include "inc/Parser.hpp"
+#include "../inc/Parser.hpp"
 
 Parser::Parser(char *file_path) {
     this->_file_path = file_path;
 }
 
-void Parser::parsefrmfile() {
+void Parser::parsefrmfile()
+{
     std::ifstream asmFile(_file_path);
-    asmFile.is_open();
-    std::string line;
-    while (std::getline(asmFile, line)) {
-        if (line.find(" ")) {
-            strtok(line.c_str(), " ");
+    std::string delimiter = " ";
+
+    while (asmFile) {
+        std::string line;
+        eOperandType t;
+
+        getline(asmFile, line);
+        if (line.find(" ") != std::string::npos) {
+            command = line.substr(0, line.find(delimiter));
+            line.erase(0, line.find(delimiter) + delimiter.length());
+            t = _type[line.substr(0, line.find(delimiter))];
+            line.erase(0, line.find(delimiter) + delimiter.length());
+            value = line.substr(0, line.find(delimiter));
+            value.erase(0, 1); value.pop_back();
+            cmd.push_back({command, t, value});
+        }
+        else if (!line.empty()) {
+            command = line;
+            cmd.push_back({command, _type["NONE"], ""});
         }
     }
+    for(auto& tuple: cmd) {
+        std::cout << std::get<0>(tuple) << " " << std::get<1>(tuple) << " " << std::get<2>(tuple) << std::endl;   
+    }
+    asmFile.close();
 }
