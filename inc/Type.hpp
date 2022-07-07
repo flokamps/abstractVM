@@ -6,6 +6,8 @@
 #define ABSTRACTVM_TYPE_HPP
 
 #include "IOperand.hpp"
+#include "Factory.hpp"
+#include <cmath>
 
 template <class T>
 class Type : public IOperand {
@@ -21,24 +23,62 @@ class Type : public IOperand {
         eOperandType getType() const override {
             return type;
         };
-        double getDoubleFromString(std::string const &value) const;
-        IOperand *makeOperation(eOperandType operandType, const std::string &value) const;
+        double getDoubleFromString(std::string const &value) const {
+            size_t next;
+            double conv;
+
+            conv = std::stod(value, &next);
+            if (next > value.length() || value[next] != '\0')
+                //throw exception
+                return 0;
+            return conv;
+        };
+        IOperand *makeOperation(eOperandType operandType, const std::string &value, char op) const {
+            double res;
+            IOperand *new_op;
+            switch (op) {
+                case '+':
+                    res = getDoubleFromString(value) + _value;
+                    break;
+                case '-':
+                    res = _value - getDoubleFromString(value);
+                    break;
+                    case '*':
+                    res = _value * getDoubleFromString(value);
+                    break;
+                case '/':
+                    res = _value / getDoubleFromString(value);
+                    break;
+                case '%':
+                    res = fmod(_value,getDoubleFromString(value));
+                    break;
+                default:
+                    res = 0;
+                    break;
+            }
+            new_op = Factory::createOperand(operandType, std::to_string(res));
+            return new_op;
+        };
 
         IOperand *operator+(const IOperand &rhs) const override {
-            IOperand *new_op = makeOperation(rhs.getType(), rhs.toString());
+            IOperand *new_op = makeOperation(rhs.getType(), rhs.toString(), '+');
             return new_op;
         };
         IOperand *operator-(const IOperand &rhs) const override {
-            return nullptr;
+            IOperand *new_op = makeOperation(rhs.getType(), rhs.toString(), '-');
+            return new_op;
         };
         IOperand *operator*(const IOperand &rhs) const override {
-            return nullptr;
+            IOperand *new_op = makeOperation(rhs.getType(), rhs.toString(), '*');
+            return new_op;
         };
         IOperand *operator/(const IOperand &rhs) const override {
-            return nullptr;
+            IOperand *new_op = makeOperation(rhs.getType(), rhs.toString(), '/');
+            return new_op;
         };
         IOperand *operator%(const IOperand &rhs) const override {
-            return nullptr;
+            IOperand *new_op = makeOperation(rhs.getType(), rhs.toString(), '%');
+            return new_op;
         };
 };
 
