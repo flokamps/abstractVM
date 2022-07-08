@@ -7,7 +7,12 @@
 
 int main(int ac, char **av) {
     Parser parser(av[1]);
-    VirtualMachine vm;
     parser.parsefrmfile();
-    vm.run(parser.getInstructions());
+    try {
+        VirtualMachine vm;
+        vm.run(parser.getInstructions());
+    } catch (VMException &e) {
+        std::cerr << e.what() << std::endl;
+        exit(84);
+    }
 }

@@ -8,6 +8,7 @@
 #include "Parser.hpp"
 #include <list>
 #include <map>
+#include <utility>
 
 class VirtualMachine;
 
@@ -34,6 +35,16 @@ class VirtualMachine {
         void mod(IOperand *operand = nullptr);
         void print(IOperand *operand = nullptr);
         void exit(IOperand *operand = nullptr);
+};
+
+class VMException : public std::exception {
+    public:
+        explicit VMException(std::string msg) : _msg(std::move(msg)) {}
+        const char *what() const noexcept override {
+            return _msg.c_str();
+        }
+    private:
+        std::string _msg;
 };
 
 #endif //ABSTRACTVM_VIRTUALMACHINE_HPP
