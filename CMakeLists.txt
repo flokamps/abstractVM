@@ -5,5 +5,4 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_executable(abstractVM
         src/main.cpp
-        src/Type.cpp
         src/Factory.cpp)
