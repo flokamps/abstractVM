@@ -21,8 +21,6 @@ void Parser::parsefrmfile()
         eOperandType t;
 
         getline(asmFile, line);
-        if (line == "exit")
-            continue;
         if (line.find(" ") != std::string::npos) {
             command = line.substr(0, line.find(delimiter));
             line.erase(0, line.find(delimiter) + delimiter.length());
@@ -36,9 +34,6 @@ void Parser::parsefrmfile()
             command = line;
             cmd.push_back({command, _type["NONE"], ""});
         }
-    }
-    for(auto& tuple: cmd) {
-        std::cout << std::get<0>(tuple) << " " << std::get<1>(tuple) << " " << std::get<2>(tuple) << std::endl;   
     }
     asmFile.close();
 }
@@ -54,7 +49,6 @@ void Parser::parse()
         getline(std::cin, line);
         if (line == "exit") {
             exit = 1;
-            continue;
         }
         if (line.find(" ") != std::string::npos) {
             command = line.substr(0, line.find(delimiter));
@@ -65,7 +59,7 @@ void Parser::parse()
             value.pop_back();
             cmd.push_back({command, t, value});
         }
-        else if (!line.empty() && line != "exit") {
+        else if (!line.empty()) {
             command = line;
             cmd.push_back({command, _type["NONE"], ""});
         }
@@ -73,7 +67,8 @@ void Parser::parse()
     while (line != ";;") {
         getline(std::cin, line);
     }
-    for(auto& tuple: cmd) {
-        std::cout << std::get<0>(tuple) << " " << std::get<1>(tuple) << " " << std::get<2>(tuple) << std::endl;   
-    }
+}
+
+std::vector<std::tuple<std::string, eOperandType, std::string>> Parser::getInstructions() {
+    return (cmd);
 }
