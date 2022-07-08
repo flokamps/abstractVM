@@ -4,6 +4,7 @@
 
 #include "../inc/VirtualMachine.hpp"
 #include "../inc/Factory.hpp"
+#include <algorithm>
 
 void VirtualMachine::runCommand(const std::string& command, IOperand *operand)
 {
@@ -29,6 +30,9 @@ void VirtualMachine::run(std::vector<std::tuple<std::string, eOperandType, std::
 {
     for (auto &it : cmd)
     {
+        if (_commands.count(std::get<0>(it)) == 0) {
+            throw std::runtime_error("Unknown command");
+        }
         std::get<1>(it) != eOperandType::Null ? runCommand(std::get<0>(it),
                 Factory::createOperand(std::get<1>(it), std::get<2>(it))
                 ) : runCommand(std::get<0>(it));
