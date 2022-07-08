@@ -47,7 +47,10 @@ void VirtualMachine::pop(IOperand *operand)
 
 void VirtualMachine::dump(IOperand *operand)
 {
-
+    for (auto &it : _stack)
+    {
+        std::cout << it->toString() << std::endl;
+    }
 }
 
 void VirtualMachine::assertt(IOperand *operand)
