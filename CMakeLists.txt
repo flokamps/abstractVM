@@ -6,4 +6,5 @@ set(CMAKE_CXX_STANDARD 14)
 add_executable(abstractVM
         src/main.cpp
         src/Factory.cpp
-        src/Parser.cpp)
+        src/Parser.cpp
+        src/VirtualMachine.cpp)

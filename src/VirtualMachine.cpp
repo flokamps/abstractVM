@@ -3,11 +3,7 @@
 //
 
 #include "../inc/VirtualMachine.hpp"
-
-
-VirtualMachine::VirtualMachine(std::vector<std::tuple<std::string, eOperandType, std::string>> cmd)
-{
-}
+#include "../inc/Factory.hpp"
 
 void VirtualMachine::runCommand(const std::string& command, IOperand *operand)
 {
@@ -29,7 +25,67 @@ Commands VirtualMachine::_commands = {
     {"exit", &VirtualMachine::exit}
 };
 
-void VirtualMachine::run()
+void VirtualMachine::run(std::vector<std::tuple<std::string, eOperandType, std::string>> cmd)
+{
+    for (auto &it : cmd)
+    {
+        std::get<1>(it) != eOperandType::Null ? runCommand(std::get<0>(it),
+                Factory::createOperand(std::get<1>(it), std::get<2>(it))
+                ) : runCommand(std::get<0>(it));
+    }
+}
+
+void VirtualMachine::push(IOperand *operand)
+{
+    _stack.push_back(operand);
+}
+
+void VirtualMachine::pop(IOperand *operand)
+{
+
+}
+
+void VirtualMachine::dump(IOperand *operand)
+{
+
+}
+
+void VirtualMachine::assertt(IOperand *operand)
+{
+
+}
+
+void VirtualMachine::add(IOperand *operand)
+{
+
+}
+
+void VirtualMachine::sub(IOperand *operand)
+{
+
+}
+
+void VirtualMachine::mul(IOperand *operand)
+{
+
+}
+
+void VirtualMachine::div(IOperand *operand)
+{
+
+}
+
+void VirtualMachine::mod(IOperand *operand)
+{
+
+}
+
+void VirtualMachine::print(IOperand *operand)
+{
+
+}
+
+void VirtualMachine::exit(IOperand *operand)
 {
 
 }

@@ -15,9 +15,9 @@ typedef std::map<const std::string, void (VirtualMachine::*)(IOperand *)> Comman
 
 class VirtualMachine {
     public:
-        VirtualMachine(std::vector<std::tuple<std::string, eOperandType, std::string>> cmd);
+        VirtualMachine() = default;
         ~VirtualMachine() = default;
-        void run();
+        void run(std::vector<std::tuple<std::string, eOperandType, std::string>> cmd);
         void runCommand(const std::string& command, IOperand *operand = nullptr);
     private:
         std::list<IOperand*> _stack;

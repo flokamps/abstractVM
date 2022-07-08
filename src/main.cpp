@@ -3,14 +3,11 @@
 //
 
 #include "../inc/Parser.hpp"
-#include "../inc/Factory.hpp"
+#include "../inc/VirtualMachine.hpp"
 
-int main(int argc, char **argv)
-{
-    IOperand *int8 = Factory::createOperand(eOperandType::Float, "2.0");
-    IOperand *int8_2 = Factory::createOperand(eOperandType::Double, "3.0");
-    IOperand *sum = *int8 / *int8_2;
-    Parser parser;
-    parser.parse();
-    return 0;
+int main(int ac, char **av) {
+    Parser parser(av[1]);
+    VirtualMachine vm;
+    parser.parsefrmfile();
+    vm.run(parser.getInstructions());
 }

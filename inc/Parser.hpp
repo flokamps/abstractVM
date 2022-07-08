@@ -5,6 +5,8 @@
 ** Parser
 */
 
+#pragma once
+
 #include "IOperand.hpp"
 
 #include <fstream>
