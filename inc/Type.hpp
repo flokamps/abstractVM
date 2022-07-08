@@ -33,10 +33,22 @@ class Type : public IOperand {
                 return 0;
             return conv;
         };
+        eOperandType defineNewType(eOperandType other) const {
+            std::map<eOperandType, int> types = {
+                    {eOperandType::Int8, 1},
+                    {eOperandType::Int16, 2},
+                    {eOperandType::Int32, 3},
+                    {eOperandType::Float, 4},
+                    {eOperandType::Double, 5},
+                    {eOperandType::BigDecimal, 6}
+            };
+            if (types[other] > types[_type])
+                return other;
+            return _type;
+        }
         IOperand *makeOperation(eOperandType operandType, const std::string &value, char op) const {
             double res;
             IOperand *new_op;
-            eOperandType new_op_type;
             switch (op) {
                 case '+':
                     res = getDoubleFromString(value) + _value;
@@ -51,13 +63,13 @@ class Type : public IOperand {
                     res = _value / getDoubleFromString(value);
                     break;
                 case '%':
-                    res = fmod(_value,getDoubleFromString(value));
+                    res = fmod(_value, getDoubleFromString(value));
                     break;
                 default:
                     res = 0;
                     break;
             }
-            new_op = Factory::createOperand(operandType, std::to_string(res));
+            new_op = Factory::createOperand(defineNewType(operandType), std::to_string(res));
             return new_op;
         };
 
