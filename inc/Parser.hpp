@@ -22,6 +22,7 @@ class Parser {
         Parser(char *file_path = nullptr);
         void parsefrmfile();
         void parse();
+        void errorHandling();
 
     private:
         char *_file_path;
