@@ -31,7 +31,7 @@ void VirtualMachine::run(std::vector<std::tuple<std::string, eOperandType, std::
     for (auto &it : cmd)
     {
         if (_commands.count(std::get<0>(it)) == 0)
-            throw VMException("VMException: Unknown command " + std::get<0>(it));
+            throw VMException("Unknown command " + std::get<0>(it));
         std::get<1>(it) != eOperandType::Null ? runCommand(std::get<0>(it),
                 Factory::createOperand(std::get<1>(it), std::get<2>(it))
                 ) : runCommand(std::get<0>(it));

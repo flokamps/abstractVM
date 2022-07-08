@@ -12,7 +12,7 @@ int main(int ac, char **av) {
         VirtualMachine vm;
         vm.run(parser.getInstructions());
     } catch (VMException &e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << "VMException: " << e.what() << std::endl;
         exit(84);
     }
 }
