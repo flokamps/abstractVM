@@ -22,7 +22,7 @@ class Parser {
         Parser(char *file_path = nullptr);
         void parsefrmfile();
         void parse();
-        void errorHandling();
+        std::vector<std::tuple<std::string, eOperandType, std::string>> getInstructions();
 
     private:
         char *_file_path;
