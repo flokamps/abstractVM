@@ -31,7 +31,7 @@ class Parser {
         eOperandType type;
         std::string value;
         std::map<std::string, eOperandType> _type {
-            {"int8", Int8}, {"int16", Int16}, {"int32", Int32}, {"Float", Float}, 
-            {"double", Double}, {"BigDecimal", BigDecimal}, {"NONE", Null}
+            {"int8", Int8}, {"int16", Int16}, {"int32", Int32}, {"float", Float}, 
+            {"double", Double}, {"bigdecimal", BigDecimal}, {"NONE", Null}
         };
 };
