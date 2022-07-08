@@ -19,7 +19,7 @@
 
 class Parser {
     public:
-        Parser(char *file_path = nullptr);
+        explicit Parser(char *file_path = nullptr);
         void parsefrmfile();
         void parse();
         std::vector<std::tuple<std::string, eOperandType, std::string>> getInstructions();
