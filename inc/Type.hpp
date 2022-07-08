@@ -8,6 +8,8 @@
 #include "IOperand.hpp"
 #include "Factory.hpp"
 #include <cmath>
+#include <variant>
+#include <iomanip>
 
 template <class T>
 class Type : public IOperand {
@@ -45,10 +47,9 @@ class Type : public IOperand {
             if (types[other] > types[_type])
                 return other;
             return _type;
-        }
+        };
         IOperand *makeOperation(eOperandType operandType, const std::string &value, char op) const {
             double res;
-            IOperand *new_op;
             switch (op) {
                 case '+':
                     res = getDoubleFromString(value) + _value;
@@ -69,8 +70,8 @@ class Type : public IOperand {
                     res = 0;
                     break;
             }
-            new_op = Factory::createOperand(defineNewType(operandType), std::to_string(res));
-            return new_op;
+            eOperandType new_type = defineNewType(operandType);
+            return Factory::createOperand(new_type, std::to_string(res));
         };
 
         IOperand *operator+(const IOperand &rhs) const override {

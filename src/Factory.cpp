@@ -53,14 +53,14 @@ IOperand *Factory::createInt32(const std::string &value)
 IOperand *Factory::createFloat(const std::string &value)
 {
     IOperand *operand;
-    operand = new Type<float_t>(std::stoi(value), eOperandType::Float);
+    operand = new Type<float_t>(std::stof(value), eOperandType::Float);
     return operand;
 }
 
 IOperand *Factory::createDouble(const std::string &value)
 {
     IOperand *operand;
-    operand = new Type<double_t>(std::stoi(value), eOperandType::Double);
+    operand = new Type<double_t>(std::stod(value), eOperandType::Double);
     return operand;
 }
 
