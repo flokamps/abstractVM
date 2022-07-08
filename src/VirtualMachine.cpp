@@ -9,10 +9,10 @@ VirtualMachine::VirtualMachine(std::vector<std::tuple<std::string, eOperandType,
 {
 }
 
-void VirtualMachine::runCommand(const std::string& command)
+void VirtualMachine::runCommand(const std::string& command, IOperand *operand)
 {
-   void (VirtualMachine::*func)(void) = _commands[command];
-    return (this->*func)();
+   void (VirtualMachine::*func)(IOperand *) = _commands[command];
+    return (this->*func)(operand);
 }
 
 Commands VirtualMachine::_commands = {

@@ -11,29 +11,29 @@
 
 class VirtualMachine;
 
-typedef std::map<const std::string, void (VirtualMachine::*)(void)> Commands;
+typedef std::map<const std::string, void (VirtualMachine::*)(IOperand *)> Commands;
 
 class VirtualMachine {
     public:
         VirtualMachine(std::vector<std::tuple<std::string, eOperandType, std::string>> cmd);
         ~VirtualMachine() = default;
         void run();
-        void runCommand(const std::string& command);
+        void runCommand(const std::string& command, IOperand *operand = nullptr);
     private:
         std::list<IOperand*> _stack;
         static Commands _commands;
 
-        void push(void);
-        void pop(void);
-        void dump(void);
-        void assertt(void);
-        void add(void);
-        void sub(void);
-        void mul(void);
-        void div(void);
-        void mod(void);
-        void print(void);
-        void exit(void);
+        void push(IOperand *operand = nullptr);
+        void pop(IOperand *operand = nullptr);
+        void dump(IOperand *operand = nullptr);
+        void assertt(IOperand *operand = nullptr);
+        void add(IOperand *operand = nullptr);
+        void sub(IOperand *operand = nullptr);
+        void mul(IOperand *operand = nullptr);
+        void div(IOperand *operand = nullptr);
+        void mod(IOperand *operand = nullptr);
+        void print(IOperand *operand = nullptr);
+        void exit(IOperand *operand = nullptr);
 };
 
 #endif //ABSTRACTVM_VIRTUALMACHINE_HPP
