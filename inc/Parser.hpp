@@ -5,6 +5,8 @@
 ** Parser
 */
 
+#pragma once
+
 #include "IOperand.hpp"
 #include "Exception.hpp"
 
@@ -21,7 +23,7 @@
 
 class Parser {
     public:
-        Parser(char *file_path = nullptr);
+        explicit Parser(char *file_path = nullptr);
         void parsefrmfile();
         void parse();
         void errorHandling(eOperandType t);

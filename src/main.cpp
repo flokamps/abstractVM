@@ -2,10 +2,17 @@
 // Created by Florian Kamps on 07/07/2022.
 //
 
-#include "../inc/Factory.hpp"
+#include "../inc/Parser.hpp"
+#include "../inc/VirtualMachine.hpp"
 
-int main(int argc, char **argv)
-{
-    IOperand *int8 = Factory::createOperand(eOperandType::Int8, "1");
-    return 0;
+int main(int ac, char **av) {
+    Parser parser(av[1]);
+    ac < 2 ? parser.parse() : parser.parsefrmfile();
+    try {
+        VirtualMachine vm;
+        vm.run(parser.getInstructions());
+    } catch (VMException &e) {
+        std::cerr << "VMException: " << e.what() << std::endl;
+        exit(84);
+    }
 }
