@@ -6,14 +6,14 @@
 #include "../inc/VirtualMachine.hpp"
 
 int main(int ac, char **av) {
+    Parser parser(av[1]);
+    VirtualMachine vm;
     try {
-        Parser parser(av[1]);
         ac < 2 ? parser.parse() : parser.parsefrmfile();
     } catch (ParserException &e) {
         std::cerr << "ParserException: " << e.what() << std::endl;
     }
     try {
-        VirtualMachine vm;
         vm.run(parser.getInstructions());
     } catch (VMException &e) {
         std::cerr << "VMException: " << e.what() << std::endl;
