@@ -31,6 +31,8 @@ void Parser::parsefrmfile()
             t = _type[line.substr(0, line.find("("))];
             line.erase(0, line.find("(") + delimiter.length());
             value = line.substr(0, line.find(delimiter));
+            if (value.back() == '\r')
+                value.pop_back();
             value.pop_back();
             errorHandling(t);
             instructions.push_back({command, t, value});
@@ -38,6 +40,8 @@ void Parser::parsefrmfile()
         }
         else if (!line.empty()) {
             command = line;
+            if (command.back() == '\r')
+                command.pop_back();
             errorHandling(t);
             instructions.push_back({command, _type["NONE"], ""});
         }
