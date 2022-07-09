@@ -4,6 +4,7 @@
 
 #include "../inc/Factory.hpp"
 #include "../inc/Type.hpp"
+#include "../inc/VirtualMachine.hpp"
 
 Factory::Factory()
 {
@@ -16,6 +17,8 @@ Factory::~Factory()
 IOperand *Factory::createOperand(eOperandType type, const std::string &value)
 {
     Factory factory;
+    if (type == eOperandType::Error)
+        throw VMException("Unknown type");
     IOperand *(Factory::*op)(const std::string &) = _operands[type];
     return (factory.*op)(value);
 }
