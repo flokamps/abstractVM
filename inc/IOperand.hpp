@@ -9,7 +9,8 @@ enum eOperandType {
     Float,
     Double,
     BigDecimal,
-    Null
+    Null,
+    Error
 };
 
 class IOperand {

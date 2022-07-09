@@ -27,6 +27,7 @@ class Parser {
         void parse();
         void errorHandling(eOperandType t);
         bool is_number(const std::string& s);
+        std::string typehandling(std::string temptype);
         std::vector<std::tuple<std::string, eOperandType, std::string>> getInstructions();
 
     private:
@@ -37,10 +38,11 @@ class Parser {
         std::string value;
         std::map<std::string, eOperandType> _type {
             {"int8", Int8}, {"int16", Int16}, {"int32", Int32}, {"float", Float}, 
-            {"double", Double}, {"bigdecimal", BigDecimal}, {"NONE", Null}
+            {"double", Double}, {"bigdecimal", BigDecimal}, {"NONE", Null}, {"Error", Error}
         };
-        std::vector<std::string> cmd {"pop", "dump", "clear", "dup", "swap", "add", "sub", "mul", "div", "mod", "print", "exit"};
-        std::vector<std::string> cmdv {"push", "assert", "load", "store"};
+        std::vector<std::string> listt {
+            "int8", "int16", "int32", "float", "double", "bigdecimal"
+        };
 };
 
 class ParserException : public std::exception
