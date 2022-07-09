@@ -61,12 +61,12 @@ void Parser::parse()
             line.erase(0, line.find("(") + delimiter.length());
             value = line.substr(0, line.find(delimiter));
             value.pop_back();
-            errorHandling(t);
+           // errorHandling(t);
             instructions.push_back({command, t, value});
         }
         else if (!line.empty()) {
             command = line;
-            errorHandling(t);
+          //  errorHandling(t);
             instructions.push_back({command, _type["NONE"], ""});
         }
     }
