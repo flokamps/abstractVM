@@ -34,7 +34,6 @@ void Parser::parsefrmfile()
             if (value.back() == '\r')
                 value.pop_back();
             value.pop_back();
-            errorHandling(t);
             instructions.push_back({command, t, value});
             value = ""; t = Null;
         }
@@ -42,7 +41,6 @@ void Parser::parsefrmfile()
             command = line;
             if (command.back() == '\r')
                 command.pop_back();
-            errorHandling(t);
             instructions.push_back({command, _type["NONE"], ""});
         }
     }
@@ -68,13 +66,11 @@ void Parser::parse()
             line.erase(0, line.find("(") + delimiter.length());
             value = line.substr(0, line.find(delimiter));
             value.pop_back();
-            errorHandling(t);
             instructions.push_back({command, t, value});
             value = ""; t = Null;
         }
         else if (!line.empty()) {
             command = line;
-            errorHandling(t);
             instructions.push_back({command, _type["NONE"], ""});
         }
     }
@@ -85,45 +81,4 @@ void Parser::parse()
 
 std::vector<std::tuple<std::string, eOperandType, std::string>> Parser::getInstructions() {
     return (instructions);
-}
-
-bool Parser::is_number(const std::string& s)
-{
-    return !s.empty() && std::find_if(s.begin(), 
-        s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
-}
-
-void Parser::errorHandling(eOperandType t)
-{
-    int check = 0;
-
-    for (unsigned int i = 0; i < cmd.size(); i++) {
-        if (command == cmd[i])
-            check = 1;
-    }
-    if (check == 0) {
-        for (unsigned int i = 0; i < cmdv.size(); i++) {
-            if (command == cmdv[i])
-                check = 2;
-        }
-    }
-    switch (check) {
-        case 0:
-            throw ParserException("Error: bad command");
-            break;
-        case 1: {
-            if (t == 0)
-                throw ParserException("Error: bad type");
-            if (value != "")
-                throw ParserException("Error: bad value");
-            break;
-        } 
-        case 2: {
-            if (t == 0)
-                throw ParserException("Error: bad type");
-            if (!is_number(value))
-                throw ParserException("Error: bad value");
-            break;
-        }
-    }
 }
