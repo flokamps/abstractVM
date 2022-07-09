@@ -45,7 +45,9 @@ void VirtualMachine::push(IOperand *operand)
 
 void VirtualMachine::pop(IOperand *operand)
 {
-
+    if (_stack.empty())
+        throw VMException("Pop on empty stack");
+    _stack.pop_back();
 }
 
 void VirtualMachine::dump(IOperand *operand)
@@ -58,12 +60,21 @@ void VirtualMachine::dump(IOperand *operand)
 
 void VirtualMachine::assertt(IOperand *operand)
 {
-
+    if (_stack.empty())
+        throw VMException("Assert on empty stack");
+    if (*_stack.back() != *operand)
+        throw VMException("Assert failed");
 }
 
 void VirtualMachine::add(IOperand *operand)
 {
-
+    if (_stack.size() < 2)
+        throw VMException("Add on empty stack");
+    IOperand *op1 = _stack.back();
+    _stack.pop_back();
+    IOperand *op2 = _stack.back();
+    _stack.pop_back();
+    _stack.push_back(*op1 + *op2);
 }
 
 void VirtualMachine::sub(IOperand *operand)

@@ -73,6 +73,9 @@ class Type : public IOperand {
             eOperandType new_type = defineNewType(operandType);
             return Factory::createOperand(new_type, std::to_string(res));
         };
+        bool checkIfEqual(IOperand const &rhs) const {
+            return _value == std::stod(rhs.toString());
+        };
 
         IOperand *operator+(const IOperand &rhs) const override {
             IOperand *new_op = makeOperation(rhs.getType(), rhs.toString(), '+');
@@ -93,6 +96,9 @@ class Type : public IOperand {
         IOperand *operator%(const IOperand &rhs) const override {
             IOperand *new_op = makeOperation(rhs.getType(), rhs.toString(), '%');
             return new_op;
+        };
+        bool operator!=(const IOperand &rhs) const override {
+            return !checkIfEqual(rhs);
         };
 };
 
