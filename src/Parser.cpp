@@ -17,6 +17,7 @@ void Parser::parsefrmfile()
     std::ifstream asmFile(_file_path);
     std::string delimiter = " ";
     std::string line;
+    std::string temptype;
 
     if (asmFile.is_open() == false) {
         throw ParserException("Error: Impossible to open file");
@@ -28,7 +29,9 @@ void Parser::parsefrmfile()
         if (line.find(" ") != std::string::npos) {
             command = line.substr(0, line.find(delimiter));
             line.erase(0, line.find(delimiter) + delimiter.length());
-            t = _type[line.substr(0, line.find("("))];
+            temptype = line.substr(0, line.find("("));
+            temptype = typehandling(temptype);
+            t = _type[temptype];
             line.erase(0, line.find("(") + delimiter.length());
             value = line.substr(0, line.find(delimiter));
             if (value.back() == '\r')
@@ -52,6 +55,7 @@ void Parser::parse()
     std::string line;
     std::string delimiter = " ";
     eOperandType t;
+    std::string temptype;
     int exit = 0;
 
     while (line != ";;" && exit == 0) {
@@ -62,7 +66,9 @@ void Parser::parse()
         if (line.find(" ") != std::string::npos) {
             command = line.substr(0, line.find(delimiter));
             line.erase(0, line.find(delimiter) + delimiter.length());
-            t = _type[line.substr(0, line.find("("))];
+            temptype = line.substr(0, line.find("("));
+            temptype = typehandling(temptype);
+            t = _type[temptype];
             line.erase(0, line.find("(") + delimiter.length());
             value = line.substr(0, line.find(delimiter));
             value.pop_back();
@@ -81,4 +87,17 @@ void Parser::parse()
 
 std::vector<std::tuple<std::string, eOperandType, std::string>> Parser::getInstructions() {
     return (instructions);
+}
+
+std::string Parser::typehandling(std::string temptype) {
+    int check = 0;
+
+    for (unsigned int i = 0; i < listt.size(); i++) {
+        if (temptype == listt[i])
+            check = 1;
+    }
+    if (check == 0)
+        return ("Error");
+    else
+        return (temptype);
 }
