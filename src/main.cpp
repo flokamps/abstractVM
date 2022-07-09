@@ -7,7 +7,7 @@
 
 int main(int ac, char **av) {
     Parser parser(av[1]);
-    parser.parsefrmfile();
+    ac < 2 ? parser.parse() : parser.parsefrmfile();
     try {
         VirtualMachine vm;
         vm.run(parser.getInstructions());
