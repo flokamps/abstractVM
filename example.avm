@@ -1,5 +1,0 @@
-push int32(16)
-push double(0.2284466)
-add
-dump
-exit
