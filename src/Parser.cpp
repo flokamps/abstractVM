@@ -31,11 +31,18 @@ void Parser::parsefrmfile()
             t = _type[line.substr(0, line.find("("))];
             line.erase(0, line.find("(") + delimiter.length());
             value = line.substr(0, line.find(delimiter));
+            if (value.back() == '\r')
+                value.pop_back();
             value.pop_back();
+            errorHandling(t);
             instructions.push_back({command, t, value});
+            value = ""; t = Null;
         }
         else if (!line.empty()) {
             command = line;
+            if (command.back() == '\r')
+                command.pop_back();
+            errorHandling(t);
             instructions.push_back({command, _type["NONE"], ""});
         }
     }
@@ -61,20 +68,18 @@ void Parser::parse()
             line.erase(0, line.find("(") + delimiter.length());
             value = line.substr(0, line.find(delimiter));
             value.pop_back();
-           // errorHandling(t);
+            errorHandling(t);
             instructions.push_back({command, t, value});
+            value = ""; t = Null;
         }
         else if (!line.empty()) {
             command = line;
-          //  errorHandling(t);
+            errorHandling(t);
             instructions.push_back({command, _type["NONE"], ""});
         }
     }
     while (line != ";;") {
         getline(std::cin, line);
-    }
-    for(auto& tuple: instructions) {
-        std::cout << std::get<0>(tuple) << " " << std::get<1>(tuple) << " " << std::get<2>(tuple) << std::endl;   
     }
 }
 
