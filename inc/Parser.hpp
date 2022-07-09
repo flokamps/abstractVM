@@ -8,7 +8,6 @@
 #pragma once
 
 #include "IOperand.hpp"
-#include "Exception.hpp"
 
 #include <stdexcept>
 #include <fstream>
