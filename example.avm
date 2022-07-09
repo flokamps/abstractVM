@@ -1,3 +1,3 @@
-push int32(6)
+push zgeg(6)
 dump
 exit
