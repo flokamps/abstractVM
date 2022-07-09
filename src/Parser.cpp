@@ -26,8 +26,8 @@ void Parser::parsefrmfile()
     while (asmFile && line != "exit") {
 
         getline(asmFile, line);
+        line = trim(line);
         if (line.find(" ") != std::string::npos) {
-            line = trim(line);
             command = line.substr(0, line.find(delimiter));
             line.erase(0, line.find(delimiter) + delimiter.length());
             temptype = line.substr(0, line.find("("));
@@ -65,10 +65,10 @@ void Parser::parse()
 
     while (line != ";;" && exit == 0) {
         getline(std::cin, line);
+        line = trim(line);
         if (line == "exit")
             exit = 1;
         if (line.find(" ") != std::string::npos) {
-            line = trim(line);
             command = line.substr(0, line.find(delimiter));
             line.erase(0, line.find(delimiter) + delimiter.length());
             temptype = line.substr(0, line.find("("));
