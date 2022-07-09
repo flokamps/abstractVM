@@ -27,6 +27,7 @@ class Parser {
         void parse();
         void errorHandling(eOperandType t);
         bool is_number(const std::string& s);
+        std::string trim(const std::string &s);
         std::string typehandling(std::string temptype);
         std::vector<std::tuple<std::string, eOperandType, std::string>> getInstructions();
 

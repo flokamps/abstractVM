@@ -19,15 +19,15 @@ void Parser::parsefrmfile()
     std::string line;
     std::string temptype;
     std::string tempvalue;
+    eOperandType t;
 
-    if (asmFile.is_open() == false) {
+    if (asmFile.is_open() == false)
         throw ParserException("Error: Impossible to open file");
-    }
     while (asmFile && line != "exit") {
-        eOperandType t;
 
         getline(asmFile, line);
         if (line.find(" ") != std::string::npos) {
+            line = trim(line);
             command = line.substr(0, line.find(delimiter));
             line.erase(0, line.find(delimiter) + delimiter.length());
             temptype = line.substr(0, line.find("("));
@@ -65,10 +65,10 @@ void Parser::parse()
 
     while (line != ";;" && exit == 0) {
         getline(std::cin, line);
-        if (line == "exit") {
+        if (line == "exit")
             exit = 1;
-        }
         if (line.find(" ") != std::string::npos) {
+            line = trim(line);
             command = line.substr(0, line.find(delimiter));
             line.erase(0, line.find(delimiter) + delimiter.length());
             temptype = line.substr(0, line.find("("));
@@ -108,4 +108,10 @@ std::string Parser::typehandling(std::string temptype) {
         return ("Error");
     else
         return (temptype);
+}
+
+std::string Parser::trim(const std::string &s)
+{
+    size_t start = s.find_first_not_of(" ");
+    return (start == std::string::npos) ? "" : s.substr(start);
 }
