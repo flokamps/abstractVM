@@ -19,7 +19,7 @@ void Parser::parsefrmfile()
     std::string line;
 
     if (asmFile.is_open() == false) {
-        //throw error (file is not accessible)
+        throw ParserException("Error: Impossible to open file");
     }
     while (asmFile && line != "exit") {
         eOperandType t;

@@ -41,3 +41,14 @@ class Parser {
         std::vector<std::string> cmd {"pop", "dump", "clear", "dup", "swap", "add", "sub", "mul", "div", "mod", "print", "exit"};
         std::vector<std::string> cmdv {"push", "assert", "load", "store"};
 };
+
+class ParserException : public std::exception
+{
+    public:
+        explicit ParserException(std::string msg) : _msg(std::move(msg)){}
+        const char* what() const noexcept override {
+            return _msg.c_str();
+        }
+    private:
+        std::string _msg;
+};
