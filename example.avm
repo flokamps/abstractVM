@@ -1,5 +1,5 @@
 push int32(16)
-push double(0.2284466)
-add
+push double(13.2284466)
+sub
 dump
 exit
