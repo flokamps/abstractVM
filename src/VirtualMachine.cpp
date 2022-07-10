@@ -91,17 +91,37 @@ void VirtualMachine::sub(IOperand *operand)
 
 void VirtualMachine::mul(IOperand *operand)
 {
-
+    if (_stack.size() < 2)
+        throw VMException("Mul on empty stack");
+    IOperand *op1 = _stack.back();
+    _stack.pop_back();
+    IOperand *op2 = _stack.back();
+    _stack.pop_back();
+    _stack.push_back(*op1 * *op2);
 }
 
 void VirtualMachine::div(IOperand *operand)
 {
-
+    if (_stack.size() < 2)
+        throw VMException("Div on empty stack");
+    IOperand *op1 = _stack.back();
+    _stack.pop_back();
+    IOperand *op2 = _stack.back();
+    _stack.pop_back();
+    IOperand *res = *op2 / *op1;
+    *res < 2 ? throw VMException("Division result is < 2") : _stack.push_back(res);
 }
 
 void VirtualMachine::mod(IOperand *operand)
 {
-
+    if (_stack.size() < 2)
+        throw VMException("Mod on empty stack");
+    IOperand *op1 = _stack.back();
+    _stack.pop_back();
+    IOperand *op2 = _stack.back();
+    _stack.pop_back();
+    IOperand *res = *op2 % *op1;
+    *res < 2 ? throw VMException("Modulo result is < 2") : _stack.push_back(res);
 }
 
 void VirtualMachine::print(IOperand *operand)
