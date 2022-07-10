@@ -6,6 +6,12 @@
 #include "../inc/Factory.hpp"
 #include <algorithm>
 
+VirtualMachine::VirtualMachine()
+{
+    for (int i = 0; i < 16; i++)
+        _register.push_back(nullptr);
+}
+
 void VirtualMachine::runCommand(const std::string& command, IOperand *operand)
 {
    void (VirtualMachine::*func)(IOperand *) = _commands[command];
@@ -23,17 +29,35 @@ Commands VirtualMachine::_commands = {
     {"div", &VirtualMachine::div},
     {"mod", &VirtualMachine::mod},
     {"print", &VirtualMachine::print},
-    {"exit", &VirtualMachine::exit}
+    {"dup", &VirtualMachine::dup},
+    {"clear", &VirtualMachine::clear},
+    {"swap", &VirtualMachine::swap},
+    {"exit", &VirtualMachine::exitt}
 };
+
+RegisterCommands VirtualMachine::_registerCommands = {
+        {"load", &VirtualMachine::load},
+        {"store", &VirtualMachine::store}
+};
+
+void VirtualMachine::handleRegisterCommand(const std::string &command, const std::string &value)
+{
+    void (VirtualMachine::*func)(const std::string &value) = _registerCommands[command];
+    return (this->*func)(value);
+}
 
 void VirtualMachine::run(std::vector<std::tuple<std::string, eOperandType, std::string>> cmd)
 {
     for (auto &it : cmd)
     {
-        if (_commands.count(std::get<0>(it)) == 0)
+        if (_commands.count(std::get<0>(it)) == 0 && _registerCommands.count(std::get<0>(it)) == 0)
             throw VMException("Unknown command " + std::get<0>(it));
         if (std::get<0>(it) == "exit")
             break;
+        if (std::get<0>(it) == "load" || std::get<0>(it) == "store") {
+            handleRegisterCommand(std::get<0>(it), std::get<2>(it));
+            continue;
+        }
         std::get<1>(it) != eOperandType::Null ? runCommand(std::get<0>(it),
                 Factory::createOperand(std::get<1>(it), std::get<2>(it))
                 ) : runCommand(std::get<0>(it));
@@ -42,36 +66,38 @@ void VirtualMachine::run(std::vector<std::tuple<std::string, eOperandType, std::
 
 void VirtualMachine::push(IOperand *operand)
 {
+    if (operand == nullptr)
+        throw VMException("push: No operand");
     _stack.push_back(operand);
 }
 
 void VirtualMachine::pop(IOperand *operand)
 {
     if (_stack.empty())
-        throw VMException("Pop on empty stack");
+        throw VMException("pop: Pop on empty stack");
     _stack.pop_back();
 }
 
 void VirtualMachine::dump(IOperand *operand)
 {
-    for (auto &it : _stack)
-    {
-        std::cout << it->toString() << std::endl;
-    }
+    for (auto it = _stack.crbegin(); it != _stack.crend(); it++)
+        std::cout << (*it)->toString() << std::endl;
 }
 
 void VirtualMachine::assertt(IOperand *operand)
 {
+    if (operand == nullptr)
+        throw VMException("assert: No operand");
     if (_stack.empty())
-        throw VMException("Assert on empty stack");
+        throw VMException("assert: Assert on empty stack");
     if (*_stack.back() != *operand)
-        throw VMException("Assert failed");
+        throw VMException("assert: Assert failed");
 }
 
 void VirtualMachine::add(IOperand *operand)
 {
     if (_stack.size() < 2)
-        throw VMException("Add on empty stack");
+        throw VMException("add: Add on empty stack");
     IOperand *op1 = _stack.back();
     _stack.pop_back();
     IOperand *op2 = _stack.back();
@@ -82,19 +108,19 @@ void VirtualMachine::add(IOperand *operand)
 void VirtualMachine::sub(IOperand *operand)
 {
     if (_stack.size() < 2)
-        throw VMException("Sub on empty stack");
+        throw VMException("sub: Sub on empty stack");
     IOperand *op1 = _stack.back();
     _stack.pop_back();
     IOperand *op2 = _stack.back();
     _stack.pop_back();
     IOperand *res = *op2 - *op1;
-    *res < 2 ? throw VMException("Subtraction result is < 2") : _stack.push_back(res);
+    *res < 2 ? throw VMException("sub: Subtraction result is < 2") : _stack.push_back(res);
 }
 
 void VirtualMachine::mul(IOperand *operand)
 {
     if (_stack.size() < 2)
-        throw VMException("Mul on empty stack");
+        throw VMException("mul: Mul on empty stack");
     IOperand *op1 = _stack.back();
     _stack.pop_back();
     IOperand *op2 = _stack.back();
@@ -105,31 +131,92 @@ void VirtualMachine::mul(IOperand *operand)
 void VirtualMachine::div(IOperand *operand)
 {
     if (_stack.size() < 2)
-        throw VMException("Div on empty stack");
+        throw VMException("div: Div on empty stack");
     IOperand *op1 = _stack.back();
     _stack.pop_back();
     IOperand *op2 = _stack.back();
     _stack.pop_back();
     IOperand *res = *op2 / *op1;
-    *res < 2 ? throw VMException("Division result is < 2") : _stack.push_back(res);
+    *res < 2 ? throw VMException("div: Division result is < 2") : _stack.push_back(res);
 }
 
 void VirtualMachine::mod(IOperand *operand)
 {
     if (_stack.size() < 2)
-        throw VMException("Mod on empty stack");
+        throw VMException("mod: Mod on empty stack");
     IOperand *op1 = _stack.back();
     _stack.pop_back();
     IOperand *op2 = _stack.back();
     _stack.pop_back();
     IOperand *res = *op2 % *op1;
-    *res < 2 ? throw VMException("Modulo result is < 2") : _stack.push_back(res);
+    *res < 2 ? throw VMException("mod: Modulo result is < 2") : _stack.push_back(res);
 }
 
 void VirtualMachine::print(IOperand *operand)
 {
     if (_stack.empty())
-        throw VMException("Print on empty stack");
+        throw VMException("print: Print on empty stack");
     assertt(Factory::createOperand(eOperandType::Int8, _stack.back()->toString()));
     std::cout << (char)std::stoi(_stack.back()->toString()) << std::endl;
+}
+
+void VirtualMachine::dup(IOperand *operand)
+{
+    if (_stack.empty())
+        throw VMException("dup: Dup on empty stack");
+    _stack.push_back(_stack.back());
+}
+
+void VirtualMachine::clear(IOperand *operand)
+{
+    _stack.clear();
+}
+
+void VirtualMachine::swap(IOperand *operand)
+{
+    if (_stack.size() < 2)
+        throw VMException("swap: Swap on empty stack");
+    IOperand *op1 = _stack.back();
+    _stack.pop_back();
+    IOperand *op2 = _stack.back();
+    _stack.pop_back();
+    _stack.push_back(op1);
+    _stack.push_back(op2);
+}
+
+void VirtualMachine::exitt(IOperand *operand)
+{
+    exit(0);
+}
+
+void VirtualMachine::pushInRegister(IOperand *operand, int v)
+{
+    auto it = _register.begin();
+    std::advance(it, --v);
+    if (v < 0 || v > 15)
+        throw VMException("Register index out of range");
+    if (_register.size() > 16)
+        throw VMException("Register is full");
+    _register.insert(it, operand);
+}
+
+void VirtualMachine::store(const std::string &value)
+{
+    int test;
+    if (_stack.empty())
+        throw VMException("store: Store on empty stack");
+    try {
+        test = std::stoi(value);
+    } catch (std::exception &e) {
+        throw VMException("store: Invalid value " + value);
+    }
+    IOperand *op = _stack.back();
+    _stack.pop_back();
+    pushInRegister(op, test);
+}
+
+//TODO: implement load command
+void VirtualMachine::load(const std::string &value)
+{
+
 }

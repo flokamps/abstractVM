@@ -13,17 +13,22 @@
 class VirtualMachine;
 
 typedef std::map<const std::string, void (VirtualMachine::*)(IOperand *)> Commands;
+typedef std::map<const std::string, void (VirtualMachine::*)(const std::string &)> RegisterCommands;
 
 class VirtualMachine {
     public:
-        VirtualMachine() = default;
+        VirtualMachine();
         ~VirtualMachine() = default;
         void run(std::vector<std::tuple<std::string, eOperandType, std::string>> cmd);
         void runCommand(const std::string& command, IOperand *operand = nullptr);
     private:
         std::list<IOperand*> _stack;
+        std::list<IOperand*> _register;
         static Commands _commands;
+        static RegisterCommands _registerCommands;
 
+        void handleRegisterCommand(const std::string& command, const std::string &value);
+        void pushInRegister(IOperand *operand, int v);
         void push(IOperand *operand = nullptr);
         void pop(IOperand *operand = nullptr);
         void dump(IOperand *operand = nullptr);
@@ -34,7 +39,12 @@ class VirtualMachine {
         void div(IOperand *operand = nullptr);
         void mod(IOperand *operand = nullptr);
         void print(IOperand *operand = nullptr);
-        void exit(IOperand *operand = nullptr);
+        void dup(IOperand *operand = nullptr);
+        void clear(IOperand *operand = nullptr);
+        void swap(IOperand *operand = nullptr);
+        void exitt(IOperand *operand = nullptr);
+        void load(const std::string &value);
+        void store(const std::string &value);
 };
 
 class VMException : public std::exception {

@@ -19,6 +19,7 @@ void Parser::parsefrmfile()
     std::string line;
     std::string temptype;
     std::string tempvalue;
+    std::string tempRegisterKey;
     eOperandType t;
 
     if (asmFile.is_open() == false)
@@ -31,6 +32,8 @@ void Parser::parsefrmfile()
             command = line.substr(0, line.find(delimiter));
             line.erase(0, line.find(delimiter) + delimiter.length());
             temptype = line.substr(0, line.find("("));
+            if (command == "load" || command == "store")
+                tempRegisterKey = line.substr(0, line.find("("));
             temptype.erase(remove_if(temptype.begin(), temptype.end(), isspace), temptype.end());
             temptype = typehandling(temptype);
             t = _type[temptype];
@@ -41,7 +44,10 @@ void Parser::parsefrmfile()
             if (value.back() == '\r')
                 value.pop_back();
             value.pop_back();
-            instructions.push_back({command, t, value});
+            if (command == "load" || command == "store")
+                instructions.emplace_back(command, t, tempRegisterKey);
+            else
+                instructions.emplace_back(command, t, value);
             value = ""; t = Null;
         }
         else if (!line.empty()) {
@@ -61,6 +67,7 @@ void Parser::parse()
     eOperandType t;
     std::string temptype;
     std::string tempvalue;
+    std::string tempRegisterKey;
     int exit = 0;
 
     while (line != ";;" && exit == 0) {
@@ -72,6 +79,8 @@ void Parser::parse()
             command = line.substr(0, line.find(delimiter));
             line.erase(0, line.find(delimiter) + delimiter.length());
             temptype = line.substr(0, line.find("("));
+            if (command == "load" || command == "store")
+                tempRegisterKey = line.substr(0, line.find("("));
             temptype.erase(remove_if(temptype.begin(), temptype.end(), isspace), temptype.end());
             temptype = typehandling(temptype);
             t = _type[temptype];
@@ -80,7 +89,10 @@ void Parser::parse()
             tempvalue.erase(remove_if(tempvalue.begin(), tempvalue.end(), isspace), tempvalue.end());
             value = tempvalue;
             value.pop_back();
-            instructions.push_back({command, t, value});
+            if (command == "load" || command == "store")
+                instructions.emplace_back(command, t, tempRegisterKey);
+            else
+                instructions.emplace_back(command, t, value);
             value = ""; t = Null;
         }
         else if (!line.empty()) {
