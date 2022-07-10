@@ -100,6 +100,9 @@ class Type : public IOperand {
         bool operator!=(const IOperand &rhs) const override {
             return !checkIfEqual(rhs);
         };
+        bool operator<(int rhs) const override {
+            return _value < rhs;
+        };
 };
 
 #endif //ABSTRACTVM_TYPE_HPP

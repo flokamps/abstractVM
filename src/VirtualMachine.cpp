@@ -79,7 +79,14 @@ void VirtualMachine::add(IOperand *operand)
 
 void VirtualMachine::sub(IOperand *operand)
 {
-
+    if (_stack.size() < 2)
+        throw VMException("Sub on empty stack");
+    IOperand *op1 = _stack.back();
+    _stack.pop_back();
+    IOperand *op2 = _stack.back();
+    _stack.pop_back();
+    IOperand *res = *op2 - *op1;
+    *res < 2 ? throw VMException("Subtraction result is < 2") : _stack.push_back(res);
 }
 
 void VirtualMachine::mul(IOperand *operand)
