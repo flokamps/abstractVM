@@ -129,7 +129,7 @@ void VirtualMachine::print(IOperand *operand)
     if (_stack.empty())
         throw VMException("Print on empty stack");
     assertt(Factory::createOperand(eOperandType::Int8, _stack.back()->toString()));
-    std::cout << _stack.back()->toString() << std::endl;
+    std::cout << (char)std::stoi(_stack.back()->toString()) << std::endl;
 }
 
 void VirtualMachine::exit(IOperand *operand)
