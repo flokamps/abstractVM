@@ -1,4 +1,7 @@
-push int8(68)
-print
-exit
+push int32(67)
+store 4
+push int32(8)
+push int32(1)
+push int32(13)
 dump
+exit
