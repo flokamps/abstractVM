@@ -32,6 +32,8 @@ void VirtualMachine::run(std::vector<std::tuple<std::string, eOperandType, std::
     {
         if (_commands.count(std::get<0>(it)) == 0)
             throw VMException("Unknown command " + std::get<0>(it));
+        if (std::get<0>(it) == "exit")
+            break;
         std::get<1>(it) != eOperandType::Null ? runCommand(std::get<0>(it),
                 Factory::createOperand(std::get<1>(it), std::get<2>(it))
                 ) : runCommand(std::get<0>(it));
@@ -126,10 +128,8 @@ void VirtualMachine::mod(IOperand *operand)
 
 void VirtualMachine::print(IOperand *operand)
 {
-
-}
-
-void VirtualMachine::exit(IOperand *operand)
-{
-
+    if (_stack.empty())
+        throw VMException("Print on empty stack");
+    assertt(Factory::createOperand(eOperandType::Int8, _stack.back()->toString()));
+    std::cout << (char)std::stoi(_stack.back()->toString()) << std::endl;
 }

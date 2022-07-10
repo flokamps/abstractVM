@@ -1,5 +1,4 @@
-push int32(16)
-push double(13.2284466)
-sub
-dump
+push int8(68)
+print
 exit
+dump
