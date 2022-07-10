@@ -29,6 +29,7 @@ class VirtualMachine {
 
         void handleRegisterCommand(const std::string& command, const std::string &value);
         void pushInRegister(IOperand *operand, int v);
+        IOperand *getFromRegister(int v);
         void push(IOperand *operand = nullptr);
         void pop(IOperand *operand = nullptr);
         void dump(IOperand *operand = nullptr);

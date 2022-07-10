@@ -200,6 +200,17 @@ void VirtualMachine::pushInRegister(IOperand *operand, int v)
     _register.insert(it, operand);
 }
 
+IOperand *VirtualMachine::getFromRegister(int v)
+{
+    auto it = _register.begin();
+    std::advance(it, --v);
+    if (v < 0 || v > 15)
+        throw VMException("Register index out of range");
+    if (_register.size() < 16)
+        throw VMException("Register is empty");
+    return *it;
+}
+
 void VirtualMachine::store(const std::string &value)
 {
     int test;
@@ -215,8 +226,15 @@ void VirtualMachine::store(const std::string &value)
     pushInRegister(op, test);
 }
 
-//TODO: implement load command
 void VirtualMachine::load(const std::string &value)
 {
-
+    int test;
+    if (_register.empty())
+        throw VMException("load: Load on empty register");
+    try {
+        test = std::stoi(value);
+    } catch (std::exception &e) {
+        throw VMException("load: Invalid value " + value);
+    }
+    _stack.push_back(getFromRegister(std::stoi(value)));
 }
