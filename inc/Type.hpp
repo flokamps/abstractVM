@@ -74,7 +74,7 @@ class Type : public IOperand {
             return Factory::createOperand(new_type, std::to_string(res));
         };
         bool checkIfEqual(IOperand const &rhs) const {
-            return _value == std::stod(rhs.toString());
+            return (std::stod(rhs.toString()) == _value && _type == rhs.getType());
         };
 
         IOperand *operator+(const IOperand &rhs) const override {
