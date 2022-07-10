@@ -1,4 +1,4 @@
 push int8(68)
 print
-dump
 exit
+dump
