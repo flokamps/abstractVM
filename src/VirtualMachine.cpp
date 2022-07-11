@@ -48,12 +48,15 @@ void VirtualMachine::handleRegisterCommand(const std::string &command, const std
 
 void VirtualMachine::run(std::vector<std::tuple<std::string, eOperandType, std::string>> cmd)
 {
+    std::string exitCmd;
     for (auto &it : cmd)
     {
         if (_commands.count(std::get<0>(it)) == 0 && _registerCommands.count(std::get<0>(it)) == 0)
             throw VMException("Unknown command " + std::get<0>(it));
-        if (std::get<0>(it) == "exit")
+        if (std::get<0>(it) == "exit") {
+            exitCmd = std::get<0>(it);
             break;
+        }
         if (std::get<0>(it) == "load" || std::get<0>(it) == "store") {
             handleRegisterCommand(std::get<0>(it), std::get<2>(it));
             continue;
@@ -62,7 +65,7 @@ void VirtualMachine::run(std::vector<std::tuple<std::string, eOperandType, std::
                 Factory::createOperand(std::get<1>(it), std::get<2>(it))
                 ) : runCommand(std::get<0>(it));
     }
-    if (std::get<0>(cmd.back()) != "exit")
+    if (std::get<0>(cmd.back()) != "exit" || exitCmd != "exit")
         throw VMException("Missing exit command");
 }
 
