@@ -65,7 +65,7 @@ void VirtualMachine::run(std::vector<std::tuple<std::string, eOperandType, std::
                 Factory::createOperand(std::get<1>(it), std::get<2>(it))
                 ) : runCommand(std::get<0>(it));
     }
-    if (std::get<0>(cmd.back()) != "exit" || exitCmd != "exit")
+    if (exitCmd != "exit")
         throw VMException("Missing exit command");
 }
 
