@@ -61,4 +61,6 @@ class VMException : public std::exception {
         std::string _msg;
 };
 
+int main(int ac, char **av);
+
 #endif //ABSTRACTVM_VIRTUALMACHINE_HPP

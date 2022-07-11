@@ -154,8 +154,8 @@ void VirtualMachine::div(IOperand *operand)
     _stack.pop_back();
     IOperand *op2 = _stack.back();
     _stack.pop_back();
-    if (*op1 < 2 || *op2 < 2)
-        throw VMException("div: Division operands is < 2");
+    if ((*op1).toString() == "0")
+        throw VMException("div: Division divisor is equal to 0");
     _stack.push_back(*op2 / *op1);
 }
 
@@ -167,8 +167,9 @@ void VirtualMachine::mod(IOperand *operand)
     _stack.pop_back();
     IOperand *op2 = _stack.back();
     _stack.pop_back();
-    IOperand *res = *op2 % *op1;
-    *res < 2 ? throw VMException("mod: Modulo result is < 2") : _stack.push_back(res);
+    if ((*op1).toString() == "0")
+        throw VMException("mod: Mod operands divisor is equal to 0");
+    _stack.push_back(*op2 % *op1);
 }
 
 void VirtualMachine::print(IOperand *operand)

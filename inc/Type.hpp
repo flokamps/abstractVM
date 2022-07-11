@@ -122,6 +122,9 @@ class Type : public IOperand {
         bool operator<(int rhs) const override {
             return _value < rhs;
         };
+        bool operator==(const IOperand &rhs) const override {
+            return std::to_string(_value) == rhs.toString();
+        };
 };
 
 #endif //ABSTRACTVM_TYPE_HPP
