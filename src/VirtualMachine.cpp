@@ -4,7 +4,7 @@
 
 #include "../inc/VirtualMachine.hpp"
 #include "../inc/Factory.hpp"
-#include <algorithm>
+
 
 VirtualMachine::VirtualMachine()
 {
@@ -64,6 +64,19 @@ void VirtualMachine::run(std::vector<std::tuple<std::string, eOperandType, std::
     }
 }
 
+void VirtualMachine::removeTrailing0(std::stringstream &ss)
+{
+    std::string str = ss.str();
+
+    if (str.find('.') != std::string::npos) {
+           str = str.substr(0, str.find_last_not_of('0') + 1);
+           if (str.find('.') == str.size() + 1) {
+               str = str.substr(0, str.size() - 1);
+           }
+    }
+    ss.str(str);
+}
+
 void VirtualMachine::push(IOperand *operand)
 {
     if (operand == nullptr)
@@ -80,8 +93,13 @@ void VirtualMachine::pop(IOperand *operand)
 
 void VirtualMachine::dump(IOperand *operand)
 {
-    for (auto it = _stack.crbegin(); it != _stack.crend(); it++)
-        std::cout << std::setprecision((*it)->getPrecision()) << (*it)->toString() << std::endl;
+    std::stringstream ss;
+    for (auto it = _stack.crbegin(); it != _stack.crend(); it++) {
+        ss.str("");
+        ss << std::fixed << std::setprecision((*it)->getPrecision()) << (*it)->toString();
+        removeTrailing0(ss);
+        std::cout << ss.str() << std::endl;
+    }
 }
 
 void VirtualMachine::assertt(IOperand *operand)

@@ -9,6 +9,8 @@
 #include <list>
 #include <map>
 #include <utility>
+#include <algorithm>
+#include <sstream>
 
 class VirtualMachine;
 
@@ -29,6 +31,7 @@ class VirtualMachine {
 
         void handleRegisterCommand(const std::string& command, const std::string &value);
         void pushInRegister(IOperand *operand, int v);
+        static void removeTrailing0(std::stringstream &ss);
         IOperand *getFromRegister(int v);
         void push(IOperand *operand = nullptr);
         void pop(IOperand *operand = nullptr);
