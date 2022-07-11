@@ -35,6 +35,7 @@ Factory::Operands Factory::_operands = {
 IOperand *Factory::createInt8(const std::string &value)
 {
     IOperand *operand;
+    checkOverflow(eOperandType::Int8, std::stod(value));
     operand = new Type<int8_t>(std::stoi(value), eOperandType::Int8);
     return operand;
 }
@@ -42,6 +43,7 @@ IOperand *Factory::createInt8(const std::string &value)
 IOperand *Factory::createInt16(const std::string &value)
 {
     IOperand *operand;
+    checkOverflow(eOperandType::Int16, std::stod(value));
     operand = new Type<int16_t>(std::stoi(value), eOperandType::Int16);
     return operand;
 }
@@ -49,6 +51,7 @@ IOperand *Factory::createInt16(const std::string &value)
 IOperand *Factory::createInt32(const std::string &value)
 {
     IOperand *operand;
+    checkOverflow(eOperandType::Int32, std::stod(value));
     operand = new Type<int32_t>(std::stoi(value), eOperandType::Int32);
     return operand;
 }
@@ -56,6 +59,7 @@ IOperand *Factory::createInt32(const std::string &value)
 IOperand *Factory::createFloat(const std::string &value)
 {
     IOperand *operand;
+    checkOverflow(eOperandType::Float, std::stod(value));
     operand = new Type<float_t>(std::stof(value), eOperandType::Float);
     return operand;
 }
@@ -63,6 +67,7 @@ IOperand *Factory::createFloat(const std::string &value)
 IOperand *Factory::createDouble(const std::string &value)
 {
     IOperand *operand;
+    checkOverflow(eOperandType::Double, std::stod(value));
     operand = new Type<double_t>(std::stod(value), eOperandType::Double);
     return operand;
 }

@@ -260,3 +260,23 @@ void VirtualMachine::load(const std::string &value)
     }
     _stack.push_back(getFromRegister(std::stoi(value)));
 }
+
+void Factory::checkOverflow(eOperandType type, double value)
+{
+    if (type == eOperandType::Int8) {
+        if (value > std::numeric_limits<int8_t>::max() || value < std::numeric_limits<int8_t>::min())
+            throw VMException("Overflow");
+    } else if (type == eOperandType::Int16) {
+        if (value > std::numeric_limits<int16_t>::max() || value < std::numeric_limits<int16_t>::min())
+            throw VMException("Overflow");
+    } else if (type == eOperandType::Int32) {
+        if (value > std::numeric_limits<int32_t>::max() || value < std::numeric_limits<int32_t>::min())
+            throw VMException("Overflow");
+    } else if (type == eOperandType::Float) {
+        if (value > std::numeric_limits<float>::max() || value < std::numeric_limits<float>::min())
+            throw VMException("Overflow");
+    } else if (type == eOperandType::Double) {
+        if (value > std::numeric_limits<double>::max() || value < std::numeric_limits<double>::min())
+            throw VMException("Overflow");
+    }
+}

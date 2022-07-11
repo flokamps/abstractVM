@@ -23,6 +23,8 @@ class Factory {
         IOperand* createDouble(const std::string& value);
         IOperand* createBigDecimal(const std::string& value);
 
+        static void checkOverflow(eOperandType type, double value) ;
+
        typedef std::map<eOperandType, IOperand *(Factory::*)(const std::string&)> Operands;
        static Operands _operands;
 };

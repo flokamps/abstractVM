@@ -6,6 +6,7 @@
 #define ABSTRACTVM_TYPE_HPP
 
 #include "IOperand.hpp"
+#include "VirtualMachine.hpp"
 #include "Factory.hpp"
 #include <cmath>
 #include <variant>
