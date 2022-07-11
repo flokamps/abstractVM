@@ -11,6 +11,8 @@
 #include <utility>
 #include <algorithm>
 #include <sstream>
+#include <iomanip>
+#include <limits>
 
 class VirtualMachine;
 
