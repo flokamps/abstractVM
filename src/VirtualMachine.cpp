@@ -136,8 +136,7 @@ void VirtualMachine::sub(IOperand *operand)
     _stack.pop_back();
     IOperand *op2 = _stack.back();
     _stack.pop_back();
-    IOperand *res = *op2 - *op1;
-    *res < 2 ? throw VMException("sub: Subtraction result is < 2") : _stack.push_back(res);
+    _stack.push_back(*op2 - *op1);
 }
 
 void VirtualMachine::mul(IOperand *operand)
