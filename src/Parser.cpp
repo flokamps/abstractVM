@@ -28,6 +28,8 @@ void Parser::parsefrmfile()
 
         getline(asmFile, line);
         line = trim(line);
+        if (line.at(0) == ';' && line.at(1) != ';')
+            continue;
         if (line.find(" ") != std::string::npos) {
             command = line.substr(0, line.find(delimiter));
             line.erase(0, line.find(delimiter) + delimiter.length());
@@ -73,6 +75,8 @@ void Parser::parse()
     while (line != ";;" && exit == 0) {
         getline(std::cin, line);
         line = trim(line);
+        if (line.at(0) == ';' && line.at(1) != ';')
+            continue;
         if (line == "exit")
             exit = 1;
         if (line.find(" ") != std::string::npos) {
