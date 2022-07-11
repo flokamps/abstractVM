@@ -16,14 +16,33 @@ class Type : public IOperand {
     private:
         T _value;
         eOperandType _type;
+        int _precision;
     public:
-        Type(T value, eOperandType type) : _value(value), _type(type) {};
+        Type(T value, eOperandType type) : _value(value), _type(type) {
+            switch (type) {
+                case eOperandType::Float:
+                    _precision = 7;
+                    break;
+                case eOperandType::Double:
+                    _precision = 15;
+                    break;
+                case eOperandType::BigDecimal:
+                    _precision = 200;
+                    break;
+                default:
+                    _precision = 0;
+                    break;
+            }
+        };
         ~Type() override = default;
         std::string toString() const override {
             return std::to_string(_value);
         };
         eOperandType getType() const override {
             return _type;
+        };
+        int getPrecision() const override {
+            return _precision;
         };
         double getDoubleFromString(std::string const &value) const {
             size_t next;

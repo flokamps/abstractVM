@@ -81,7 +81,7 @@ void VirtualMachine::pop(IOperand *operand)
 void VirtualMachine::dump(IOperand *operand)
 {
     for (auto it = _stack.crbegin(); it != _stack.crend(); it++)
-        std::cout << (*it)->toString() << std::endl;
+        std::cout << std::setprecision((*it)->getPrecision()) << (*it)->toString() << std::endl;
 }
 
 void VirtualMachine::assertt(IOperand *operand)
