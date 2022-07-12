@@ -275,7 +275,7 @@ void Factory::checkOverflow(eOperandType type, double value)
         if (value > std::numeric_limits<int32_t>::max() || value < std::numeric_limits<int32_t>::min())
             throw VMException("Overflow");
     } else if (type == eOperandType::Float) {
-        if (value > std::numeric_limits<float>::max() || value < std::numeric_limits<float>::min())
+        if (value > std::numeric_limits<float_t>::max() || value < std::numeric_limits<float_t>::min())
             throw VMException("Overflow");
     } else if (type == eOperandType::Double) {
         if (value > std::numeric_limits<double>::max() || value < std::numeric_limits<double>::min())
