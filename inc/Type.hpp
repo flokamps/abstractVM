@@ -91,7 +91,9 @@ class Type : public IOperand {
                     break;
             }
             eOperandType new_type = defineNewType(operandType);
-            return Factory::createOperand(new_type, std::to_string(res));
+            std::stringstream ss(std::to_string(res));
+            VirtualMachine::removeTrailing0(ss);
+            return Factory::createOperand(new_type, ss.str());
         };
         bool checkIfEqual(IOperand const &rhs) const {
             return (std::stod(rhs.toString()) == _value && _type == rhs.getType());

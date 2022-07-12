@@ -24,13 +24,13 @@ class VirtualMachine {
         ~VirtualMachine() = default;
         void run(std::vector<std::tuple<std::string, eOperandType, std::string>> cmd);
         void runCommand(const std::string& command, IOperand *operand = nullptr);
+        static void removeTrailing0(std::stringstream &ss);
     private:
         std::list<IOperand*> _stack;
         std::map<std::string,IOperand*> _register;
         static Commands _commands;
 
         void pushInRegister(IOperand *operand, IOperand *index);
-        static void removeTrailing0(std::stringstream &ss);
         IOperand *getFromRegister(IOperand *);
         void push(IOperand *operand = nullptr);
         void pop(IOperand *operand = nullptr);
