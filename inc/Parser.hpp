@@ -44,6 +44,7 @@ class Parser {
         std::vector<std::string> listt {
             "int8", "int16", "int32", "float", "double", "bigdecimal"
         };
+        static void replaceGoodTypes(std::vector<std::tuple<std::string, eOperandType, std::string>> &);
 };
 
 class ParserException : public std::exception

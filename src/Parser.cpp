@@ -58,6 +58,7 @@ void Parser::parsefrmfile()
         }
     }
     asmFile.close();
+    replaceGoodTypes(instructions);
 }
 
 void Parser::parse()
@@ -104,6 +105,7 @@ void Parser::parse()
     while (line != ";;") {
         getline(std::cin, line);
     }
+    replaceGoodTypes(instructions);
 }
 
 std::vector<std::tuple<std::string, eOperandType, std::string>> Parser::getInstructions() {
@@ -127,4 +129,30 @@ std::string Parser::trim(const std::string &s)
 {
     size_t start = s.find_first_not_of(" ");
     return (start == std::string::npos) ? "" : s.substr(start);
+}
+
+void Parser::replaceGoodTypes(std::vector <std::tuple<std::string, eOperandType, std::string>> &commands)
+{
+    std::vector<std::string> withoutArgs = {
+            "pop",
+            "clear",
+            "dup",
+            "swap",
+            "dump",
+            "add",
+            "sub",
+            "mul",
+            "div",
+            "mod",
+            "print",
+            "exit"
+    };
+    std::vector<std::string>::iterator ir;
+    unsigned i = 0;
+    for (auto it : commands) {
+        ir = std::find(withoutArgs.begin(), withoutArgs.end(), std::get<0>(it));
+        if (ir != withoutArgs.end())
+            std::replace(commands.begin(), commands.end(), it, std::tuple<std::string, eOperandType, std::string>(std::get<0>(it), eOperandType::Null, ""));
+        i++;
+    }
 }
