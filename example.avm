@@ -1,8 +1,8 @@
 push int32(67)
-store 4
+store int8(4)
 push int32(8)
 push int32(1)
 push int32(13)
-load 4
+load int8(4)
 dump
 exit

@@ -26,7 +26,7 @@ class VirtualMachine {
         void runCommand(const std::string& command, IOperand *operand = nullptr);
     private:
         std::list<IOperand*> _stack;
-        std::list<IOperand*> _register;
+        std::map<std::string,IOperand*> _register;
         static Commands _commands;
 
         void pushInRegister(IOperand *operand, IOperand *index);

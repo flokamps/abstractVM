@@ -198,26 +198,18 @@ void VirtualMachine::exitt(IOperand *operand)
 
 void VirtualMachine::pushInRegister(IOperand *operand, IOperand *index)
 {
-    auto it = _register.begin();
-    int v = std::stoi(index->toString());
-    std::advance(it, --v);
-    if (v < 0 || v > 15)
-        throw VMException("Register index out of range");
     if (_register.size() > 16)
         throw VMException("Register is full");
-    _register.insert(it, operand);
+    _register.insert({index->toString(), operand});
 }
 
 IOperand *VirtualMachine::getFromRegister(IOperand *op)
 {
-    auto it = _register.begin();
-    int v = std::stoi(op->toString());
-    std::advance(it, --v);
-    if (v < 0 || v > 15)
-        throw VMException("Register index out of range");
     if (_register.empty())
         throw VMException("Register is empty");
-    return *it;
+    if (_register.find(op->toString()) == _register.end())
+        throw VMException("Register does not contain this index");
+    return _register.at(op->toString());
 }
 
 void VirtualMachine::store(IOperand *operand)
