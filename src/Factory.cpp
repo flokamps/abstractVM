@@ -34,7 +34,7 @@ Factory::Operands Factory::_operands = {
 
 bool Factory::isFloatingPoint(const std::string &str)
 {
-    return str.find('.') != std::string::npos;
+    return str.find('.') != std::string::npos || str.find(',') != std::string::npos;
 }
 
 IOperand *Factory::createInt8(const std::string &value)
