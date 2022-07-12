@@ -12,6 +12,7 @@ int main(int ac, char **av) {
         ac < 2 ? parser.parse() : parser.parsefrmfile();
     } catch (ParserException &e) {
         std::cerr << "ParserException: " << e.what() << std::endl;
+        exit(84);
     }
     try {
         vm.run(parser.getInstructions());
@@ -19,4 +20,5 @@ int main(int ac, char **av) {
         std::cerr << "VMException: " << e.what() << std::endl;
         exit(84);
     }
+    exit(0);
 }
