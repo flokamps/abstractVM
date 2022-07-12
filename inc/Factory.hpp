@@ -8,6 +8,7 @@
 #include "IOperand.hpp"
 #include <array>
 #include <map>
+#include <cmath>
 
 class Factory {
     public:
@@ -23,7 +24,8 @@ class Factory {
         IOperand* createDouble(const std::string& value);
         IOperand* createBigDecimal(const std::string& value);
 
-        static void checkOverflow(eOperandType type, double value) ;
+        static void checkOverflow(eOperandType type, double value);
+        static bool isFloatingPoint(const std::string &);
 
        typedef std::map<eOperandType, IOperand *(Factory::*)(const std::string&)> Operands;
        static Operands _operands;

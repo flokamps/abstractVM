@@ -32,9 +32,16 @@ Factory::Operands Factory::_operands = {
     {eOperandType::BigDecimal, &Factory::createBigDecimal}
 };
 
+bool Factory::isFloatingPoint(const std::string &str)
+{
+    return str.find('.') != std::string::npos;
+}
+
 IOperand *Factory::createInt8(const std::string &value)
 {
     IOperand *operand;
+    if (isFloatingPoint(value))
+        throw VMException("Invalid value for Int8");
     checkOverflow(eOperandType::Int8, std::stod(value));
     operand = new Type<int8_t>(std::stoi(value), eOperandType::Int8);
     return operand;
@@ -43,6 +50,8 @@ IOperand *Factory::createInt8(const std::string &value)
 IOperand *Factory::createInt16(const std::string &value)
 {
     IOperand *operand;
+    if (isFloatingPoint(value))
+        throw VMException("Invalid value for Int16");
     checkOverflow(eOperandType::Int16, std::stod(value));
     operand = new Type<int16_t>(std::stoi(value), eOperandType::Int16);
     return operand;
@@ -51,6 +60,8 @@ IOperand *Factory::createInt16(const std::string &value)
 IOperand *Factory::createInt32(const std::string &value)
 {
     IOperand *operand;
+    if (isFloatingPoint(value))
+        throw VMException("Invalid value for Int32");
     checkOverflow(eOperandType::Int32, std::stod(value));
     operand = new Type<int32_t>(std::stoi(value), eOperandType::Int32);
     return operand;
