@@ -30,7 +30,7 @@ class Parser {
         std::string trim(const std::string &s);
         std::string typehandling(std::string temptype);
         std::vector<std::tuple<std::string, eOperandType, std::string>> getInstructions();
-
+        std::string removet(const std::string &s);
     private:
         char *_file_path;
         std::vector<std::tuple<std::string, eOperandType, std::string>> instructions;

@@ -27,12 +27,15 @@ void Parser::parsefrmfile()
     while (asmFile && line != "exit") {
         getline(asmFile, line);
         line = trim(line);
+        line = removet(line);
         if (line.length() >= 2) {
             if (line.at(0) == ';' && line.at(1) == ';')
                 continue;
             if (line.at(0) == ';' && line.at(1) != ';')
                 continue;
         }
+        if (line.find("\t") != std::string::npos)
+            replace(line.begin(), line.end(), '\t' , ' ');
         if (line.find(" ") != std::string::npos) {
             command = line.substr(0, line.find(delimiter));
             line.erase(0, line.find(delimiter) + delimiter.length());
@@ -78,12 +81,15 @@ void Parser::parse()
     while (line != ";;" && exit == 0) {
         getline(std::cin, line);
         line = trim(line);
+        line = removet(line);
         if (line.length() >= 2) {
             if (line.at(0) == ';' && line.at(1) == ';')
                 continue;
             if (line.at(0) == ';' && line.at(1) != ';')
                 continue;
         }
+        if (line.find("\t") != std::string::npos)
+            replace(line.begin(), line.end(), '\t' , ' ');
         if (line == "exit")
             exit = 1;
         if (line.find(" ") != std::string::npos) {
@@ -136,5 +142,11 @@ std::string Parser::typehandling(std::string temptype) {
 std::string Parser::trim(const std::string &s)
 {
     size_t start = s.find_first_not_of(" ");
+    return (start == std::string::npos) ? "" : s.substr(start);
+}
+
+std::string Parser::removet(const std::string &s)
+{
+    size_t start = s.find_first_not_of("\t");
     return (start == std::string::npos) ? "" : s.substr(start);
 }
