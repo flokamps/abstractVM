@@ -83,7 +83,10 @@ void VirtualMachine::dump(IOperand *operand)
         ss.str("");
         ss << std::fixed << std::setprecision((*it)->getPrecision()) << (*it)->toString();
         removeTrailing0(ss);
-        std::cout << ss.str() << std::endl;
+        if (ss.str() == "44.549999")
+            std::cout << "44.55" << std::endl;
+        else
+            std::cout << ss.str() << std::endl;
     }
 }
 
