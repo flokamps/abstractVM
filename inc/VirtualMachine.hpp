@@ -17,11 +17,10 @@
 class VirtualMachine;
 
 typedef std::map<const std::string, void (VirtualMachine::*)(IOperand *)> Commands;
-typedef std::map<const std::string, void (VirtualMachine::*)(const std::string &)> RegisterCommands;
 
 class VirtualMachine {
     public:
-        VirtualMachine();
+        VirtualMachine() = default;
         ~VirtualMachine() = default;
         void run(std::vector<std::tuple<std::string, eOperandType, std::string>> cmd);
         void runCommand(const std::string& command, IOperand *operand = nullptr);
@@ -29,12 +28,10 @@ class VirtualMachine {
         std::list<IOperand*> _stack;
         std::list<IOperand*> _register;
         static Commands _commands;
-        static RegisterCommands _registerCommands;
 
-        void handleRegisterCommand(const std::string& command, const std::string &value);
-        void pushInRegister(IOperand *operand, int v);
+        void pushInRegister(IOperand *operand, IOperand *index);
         static void removeTrailing0(std::stringstream &ss);
-        IOperand *getFromRegister(int v);
+        IOperand *getFromRegister(IOperand *);
         void push(IOperand *operand = nullptr);
         void pop(IOperand *operand = nullptr);
         void dump(IOperand *operand = nullptr);
@@ -49,8 +46,8 @@ class VirtualMachine {
         void clear(IOperand *operand = nullptr);
         void swap(IOperand *operand = nullptr);
         void exitt(IOperand *operand = nullptr);
-        void load(const std::string &value);
-        void store(const std::string &value);
+        void load(IOperand *operand = nullptr);
+        void store(IOperand *operand = nullptr);
 };
 
 class VMException : public std::exception {

@@ -5,13 +5,6 @@
 #include "../inc/VirtualMachine.hpp"
 #include "../inc/Factory.hpp"
 
-
-VirtualMachine::VirtualMachine()
-{
-    for (int i = 0; i < 16; i++)
-        _register.push_back(nullptr);
-}
-
 void VirtualMachine::runCommand(const std::string& command, IOperand *operand)
 {
    void (VirtualMachine::*func)(IOperand *) = _commands[command];
@@ -32,34 +25,21 @@ Commands VirtualMachine::_commands = {
     {"dup", &VirtualMachine::dup},
     {"clear", &VirtualMachine::clear},
     {"swap", &VirtualMachine::swap},
-    {"exit", &VirtualMachine::exitt}
+    {"exit", &VirtualMachine::exitt},
+    {"load", &VirtualMachine::load},
+    {"store", &VirtualMachine::store}
 };
-
-RegisterCommands VirtualMachine::_registerCommands = {
-        {"load", &VirtualMachine::load},
-        {"store", &VirtualMachine::store}
-};
-
-void VirtualMachine::handleRegisterCommand(const std::string &command, const std::string &value)
-{
-    void (VirtualMachine::*func)(const std::string &value) = _registerCommands[command];
-    return (this->*func)(value);
-}
 
 void VirtualMachine::run(std::vector<std::tuple<std::string, eOperandType, std::string>> cmd)
 {
     std::string exitCmd;
     for (auto &it : cmd)
     {
-        if (_commands.count(std::get<0>(it)) == 0 && _registerCommands.count(std::get<0>(it)) == 0)
+        if (_commands.count(std::get<0>(it)) == 0)
             throw VMException("Unknown command " + std::get<0>(it));
         if (std::get<0>(it) == "exit") {
             exitCmd = std::get<0>(it);
             break;
-        }
-        if (std::get<0>(it) == "load" || std::get<0>(it) == "store") {
-            handleRegisterCommand(std::get<0>(it), std::get<2>(it));
-            continue;
         }
         std::get<1>(it) != eOperandType::Null ? runCommand(std::get<0>(it),
                 Factory::createOperand(std::get<1>(it), std::get<2>(it))
@@ -213,9 +193,10 @@ void VirtualMachine::exitt(IOperand *operand)
     exit(0);
 }
 
-void VirtualMachine::pushInRegister(IOperand *operand, int v)
+void VirtualMachine::pushInRegister(IOperand *operand, IOperand *index)
 {
     auto it = _register.begin();
+    int v = std::stoi(index->toString());
     std::advance(it, --v);
     if (v < 0 || v > 15)
         throw VMException("Register index out of range");
@@ -224,43 +205,32 @@ void VirtualMachine::pushInRegister(IOperand *operand, int v)
     _register.insert(it, operand);
 }
 
-IOperand *VirtualMachine::getFromRegister(int v)
+IOperand *VirtualMachine::getFromRegister(IOperand *op)
 {
     auto it = _register.begin();
+    int v = std::stoi(op->toString());
     std::advance(it, --v);
     if (v < 0 || v > 15)
         throw VMException("Register index out of range");
-    if (_register.size() < 16)
+    if (_register.empty())
         throw VMException("Register is empty");
     return *it;
 }
 
-void VirtualMachine::store(const std::string &value)
+void VirtualMachine::store(IOperand *operand)
 {
-    int test;
     if (_stack.empty())
         throw VMException("store: Store on empty stack");
-    try {
-        test = std::stoi(value);
-    } catch (std::exception &e) {
-        throw VMException("store: Invalid value " + value);
-    }
     IOperand *op = _stack.back();
     _stack.pop_back();
-    pushInRegister(op, test);
+    pushInRegister(op, operand);
 }
 
-void VirtualMachine::load(const std::string &value)
+void VirtualMachine::load(IOperand *operand)
 {
-    int test;
     if (_register.empty())
         throw VMException("load: Load on empty register");
-    try {
-        test = std::stoi(value);
-    } catch (std::exception &e) {
-        throw VMException("load: Invalid value " + value);
-    }
-    _stack.push_back(getFromRegister(std::stoi(value)));
+    _stack.push_back(getFromRegister(operand));
 }
 
 void Factory::checkOverflow(eOperandType type, double value)
