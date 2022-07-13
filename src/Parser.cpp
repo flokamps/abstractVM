@@ -26,16 +26,15 @@ void Parser::parsefrmfile()
         throw ParserException("Error: Impossible to open file");
     while (asmFile && line != "exit") {
         getline(asmFile, line);
+        if (line.find("\t") != std::string::npos)
+            replace(line.begin(), line.end(), '\t' , ' ');
         line = trim(line);
-        line = removet(line);
         if (line.length() >= 2) {
             if (line.at(0) == ';' && line.at(1) == ';')
                 continue;
             if (line.at(0) == ';' && line.at(1) != ';')
                 continue;
         }
-        if (line.find("\t") != std::string::npos)
-            replace(line.begin(), line.end(), '\t' , ' ');
         if (line.find(" ") != std::string::npos) {
             command = line.substr(0, line.find(delimiter));
             line.erase(0, line.find(delimiter) + delimiter.length());
@@ -76,16 +75,15 @@ void Parser::parse()
 
     while (line != ";;" && exit == 0) {
         getline(std::cin, line);
+        if (line.find("\t") != std::string::npos)
+            replace(line.begin(), line.end(), '\t' , ' ');
         line = trim(line);
-        line = removet(line);
         if (line.length() >= 2) {
             if (line.at(0) == ';' && line.at(1) == ';')
                 continue;
             if (line.at(0) == ';' && line.at(1) != ';')
                 continue;
         }
-        if (line.find("\t") != std::string::npos)
-            replace(line.begin(), line.end(), '\t' , ' ');
         if (line == "exit")
             exit = 1;
         if (line.find(" ") != std::string::npos) {
@@ -161,10 +159,4 @@ void Parser::replaceGoodTypes(std::vector <std::tuple<std::string, eOperandType,
             std::replace(commands.begin(), commands.end(), it, std::tuple<std::string, eOperandType, std::string>(std::get<0>(it), eOperandType::Null, ""));
         i++;
     }
-}
-
-std::string Parser::removet(const std::string &s)
-{
-    size_t start = s.find_first_not_of("\t");
-    return (start == std::string::npos) ? "" : s.substr(start);
 }
