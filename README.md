@@ -91,33 +91,24 @@ _Global percentage: 75.7%_
 
 ```
 1A - Assert
-keyboard_arrow_right
 PASSED
 1B - Add
-keyboard_arrow_right
 PASSED
 1C - Add #2
-keyboard_arrow_right
 PASSED
 1D - Add #3
-keyboard_arrow_right
 PASSED
 1E - Sub
-keyboard_arrow_right
 PASSED
 1F - Sub #2
-keyboard_arrow_right
 PASSED
 1G - Sub #3
-keyboard_arrow_right
 PASSED
 1H - Div
-keyboard_arrow_right
 Test failure: The output must match the regular expression '^OK
 $', but it was 'KO: expected exit status 0 but got 84.
 '
 1I - Div #2
-keyboard_arrow_right
 PASSED
 1J - Div #3
 keyboard_arrow_right
@@ -125,25 +116,18 @@ Test failure: The output must match the regular expression '^OK
 $', but it was 'KO: expected exit status 0 but got 84.
 '
 1K - Mod
-keyboard_arrow_right
 PASSED
 1L - Mod #2
-keyboard_arrow_right
 PASSED
 1M - Mul
-keyboard_arrow_right
 PASSED
 1N - Mul #2
-keyboard_arrow_right
 PASSED
 1O - Dup
-keyboard_arrow_right
 PASSED
 1P - Pop
-keyboard_arrow_right
 PASSED
 1Q - Print
-keyboard_arrow_right
 PASSED
 1R - Push
 keyboard_arrow_right
@@ -151,13 +135,10 @@ Test failure: The output must match the regular expression '^OK
 $', but it was 'KO: expected exit status 0 but got 84.
 '
 1S - Swap
-keyboard_arrow_right
 PASSED
 1T - Clear
-keyboard_arrow_right
 PASSED
 1U - Clear #2
-keyboard_arrow_right
 PASSED
 ```
 
@@ -165,23 +146,18 @@ PASSED
 
 ```
 2A - Comment
-keyboard_arrow_right
 Test failure: The output must match the regular expression '^OK
 $', but it was 'KO: expected exit status 0 but got 84.
 '
 2B - Inline comment
-keyboard_arrow_right
 Test failure: The output must match the regular expression '^OK
 $', but it was 'KO: expected exit status 0 but got 84.
 '
 2C - Space
-keyboard_arrow_right
 PASSED
 2D - Tab & Space
-keyboard_arrow_right
 PASSED
 2E - Tab
-keyboard_arrow_right
 PASSED
 ```
 
@@ -189,25 +165,18 @@ PASSED
 
 ```
 3A - 2 * 1 + 3
-keyboard_arrow_right
 PASSED
 3B - 6*(4+5) - 25/(2+3)
-keyboard_arrow_right
 PASSED
 3C - (42 + 33) * 44.55; 42.42; 42
-keyboard_arrow_right
 PASSED
 3D - (256 * 34 + 21) * (344 + 12 + 23)
-keyboard_arrow_right
 PASSED
 3E - (256 + 34 * 21) + (344 + 12 + 23)²
-keyboard_arrow_right
 PASSED
 3F - (2.56 + 34 * 21) * (0.34 + 12 + 23)²
-keyboard_arrow_right
 PASSED
 3G - (566.0 - 2805 / 500)^3
-keyboard_arrow_right
 PASSED
 ```
 
@@ -221,19 +190,14 @@ PASSED
 
 ```
 5A - Load & Store
-keyboard_arrow_right
 PASSED
 5B - Load
-keyboard_arrow_right
 PASSED
 5C - Load Empty
-keyboard_arrow_right
 PASSED
 5D - Store
-keyboard_arrow_right
 PASSED
 5E - Store #2
-keyboard_arrow_right
 PASSED
 ```
 
@@ -241,16 +205,12 @@ PASSED
 
 ```
 6A - Add int16
-keyboard_arrow_right
 PASSED
 6B - Add int8
-keyboard_arrow_right
 PASSED
 6C - Div
-keyboard_arrow_right
 PASSED
 6D - Mul
-keyboard_arrow_right
 PASSED
 ```
 
@@ -258,56 +218,39 @@ PASSED
 ### 7 - Error Management
 ```
 7A - Assert
-keyboard_arrow_right
 PASSED
 7B - Divide By Zero
-keyboard_arrow_right
 PASSED
 7C - Empty Stack
-keyboard_arrow_right
 PASSED
 7D - Missing Exit
-keyboard_arrow_right
 PASSED
 7E - Lexical Error
-keyboard_arrow_right
 PASSED
 7F - Lexical Error Simple #2
-keyboard_arrow_right
 PASSED
 7G - Lexical Error Simple
-keyboard_arrow_right
 Test failure: The output must match the regular expression '^OK
 $', but it was 'KO: expected exit status 84 but got 0.
 '
 7H - Modulo BigDecimal
-keyboard_arrow_right
 PASSED
 7I - Modulo By Zero
-keyboard_arrow_right
 PASSED
 7J - Modulo Double
-keyboard_arrow_right
 PASSED
 7K - Modulo Float
-keyboard_arrow_right
 PASSED
 7L - Not enough Values
-keyboard_arrow_right
 PASSED
 7M - Overflow #2
-keyboard_arrow_right
 PASSED
 7N - Overflow
-keyboard_arrow_right
 PASSED
 7O - Underflow #2
-keyboard_arrow_right
 PASSED
 7P - Underflow
-keyboard_arrow_right
 PASSED
 7Q - Unknown Instruction
-keyboard_arrow_right
 PASSED
 ```
